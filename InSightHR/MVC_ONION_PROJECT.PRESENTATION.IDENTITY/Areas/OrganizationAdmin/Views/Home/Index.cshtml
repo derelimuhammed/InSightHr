@@ -1,0 +1,121 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.IndexVms;
+@model IndexVm;
+@{
+    Layout = "_Layout";
+}
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+        <div class="card dash-widget">
+            <div class="card-body">
+                <span class="dash-widget-icon"><i class="fa-solid fa-user-large-slash"></i></span>
+                <div class="dash-widget-info">
+                    <h3>@Model.NumberOfPeopleOnLeave</h3>
+                    <span>İzindeki Çalışan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+        <div class="card dash-widget">
+            <div class="card-body">
+                <span class="dash-widget-icon"><i class="fa-solid fa-user"></i></span>
+                <div class="dash-widget-info">
+                    <h3>@Model.EmployeeCount</h3>
+                    <span>Toplam Çalışan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-table flex-fill">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Çalışan Avanslar</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table mb-10" id="AdvancePaymentListTable">
+                        <thead>
+                            <tr>
+                                <th>Çalışan Resmi</th>
+                                <th>Çalışan</th>
+                                <th>Avans Miktarı</th>
+                                <th>Avans İstenilen Zaman</th>
+                                <th class="text-center">Statü</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="AdvancePaymentListContainer">
+                            @Html.Partial("_AdvanceListPartial", Model.AdvanceListVmTake5)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="AdvancePayment" asp-action="index">Avanslar Sayfasına git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-table flex-fill">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Çalışan Masraflar</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table mb-0" id="ReimbursementListTable">
+                        <thead>
+                            <tr>
+                                <th>Çalışan</th>
+                                <th>Masraf Miktarı</th>
+                                <th>Masraf İstenilen Zaman</th>
+                                <th class="text-center">Statü</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="ReimbursementListContainer">
+                            @Html.Partial("_ReimbursementListPartial", Model.ReimbursementListVmTake5)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Reimbursement" asp-action="index">Masraflar Sayfasına git</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="offset-2 col-md-8">
+        <div class="card card-table flex-fill">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Çalışan İzinler</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table mb-0" id="TimeOffListTable">
+                        <thead>
+                            <tr>
+                                <th>Çalışan Resmi</th>
+                                <th>Çalışan</th>
+                                <th>İzin Tipi</th>
+                                <th>İzin Talep Tarihi</th>
+                                <th>Başlangıç Tarihi</th>
+                                <th>Bitiş Tarihi</th>
+                                <th>Süre</th>
+                                <th class="text-center">Durumu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TimeOffListContainer">
+                            @Html.Partial("_TimeOffListPartial", Model.TimeOffListVmTake5)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Timeoff" asp-action="index">İzinler Sayfasına git</a>
+            </div>
+        </div>
+    </div>
+</div>

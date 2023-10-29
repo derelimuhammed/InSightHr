@@ -1,0 +1,73 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.EmployeeReimbursementVms;
+@model EmployeeReimbursementUpdateVm;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Masraflar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="EmployeeReimbursement" asp-action="Index">Masraflar</a></li>
+                <li class="breadcrumb-item active">Masraf Düzenleme</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="Employee" enctype="multipart/form-data" asp-controller="EmployeeReimbursement" asp-action="EditReimbursement">
+    <div class="col-sm-6">
+        <div class="input-block mb-3">
+            <label asp-for="Currency" class="col-form-label"></label>
+            <select asp-for="Currency" class="form-control select">
+                <option selected>Seçiniz..</option>
+                <option value="USD">Dolar</option>
+                <option value="TRY">Türk Lirası</option>
+                <option value="EUR">Euro</option>
+            </select>
+            <span asp-validation-for="Currency" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="input-block mb-3">
+            <label asp-for="Date" class="control-label">
+            </label>
+            <input asp-for="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" type="date">
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-sm-6 ">
+        <div class="input-block mb-3">
+            <label for="fileInput" class="row align-items-center">
+                <label class="col-2" asp-for="ExpenseAttachmentsfile"></label>
+                <img class="img5 offset-2 col-2 " id="uploadedImage" src="/uploads/plus-icon.png" alt="Yüklenen Resim">
+            </label>
+            <input asp-for="ExpenseAttachmentsfile" id="fileInput" hidden type="file" accept="image/*" />
+            <span asp-validation-for="ExpenseAttachmentsfile" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-4">
+        <div class="input-block mb-3 form-focus marrg">
+            <input asp-for="Amount" type="number" class="form-control floating">
+            <label asp-for="Amount" class="focus-label">Masraf Miktarı</label>
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3 form-focus ">           
+            <input asp-for="Id" hidden type="text" class="form-control floating">
+            <input asp-for="EmployeeId" hidden type="text" class="form-control floating">
+            <textarea asp-for="Description" rows="5" class="form-control floating"></textarea>
+            <label asp-for="Description" class="focus-label"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</button>
+        <a class="btn btn-secondary" asp-area="Employee" asp-controller="EmployeeReimbursement" asp-action="Index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>
+

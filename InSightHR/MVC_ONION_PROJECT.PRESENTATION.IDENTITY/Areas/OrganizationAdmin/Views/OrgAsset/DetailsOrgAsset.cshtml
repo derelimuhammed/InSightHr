@@ -1,0 +1,77 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.OrgAssetVms;
+@model OrgAssetDetailsVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Demirbaş Listesi</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="OrgAsset" asp-action="Index">Demirbaşlar </a></li>
+                <li class="breadcrumb-item active">Demirbaş Detayları</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card col-md-8">
+        <div class="card-body px-3">
+            <dl class="row">
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SerialNumber)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SerialNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PurchaseDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PurchaseDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.AssetStatus)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.AssetStatus)
+                </dd>
+
+
+
+            </dl>
+            <div>
+                <a class="btn btn-warning" asp-controller="OrgAsset" asp-action="EditOrgAsset" asp-route-id="@Model?.Id"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</a>
+
+                <a class="btn btn-info" asp-action="Index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+
+            </div>
+        </div>
+    </div>
+</div>

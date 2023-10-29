@@ -1,0 +1,116 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeDebitVms;
+@model EmployeeDebitCreateVm;
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="content container-fluid ">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Zimmet İşlemleri</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Zimmet Atama</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="EmployeeDebit" asp-action="AddEmployeeDebit">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="input-block mb-3">
+                    <label asp-for="CategoryId" class="control-label">
+                    </label>
+                    <select asp-for="CategoryId" asp-items="Model.CategoryList" class="select" id="categoryDropdown">
+                        <option selected>Seçiniz..</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-block mb-3">
+                    <label asp-for="OrgAssetId" class="control-label">
+                    </label>
+                    <select asp-for="OrgAssetId" asp-items="Model.DebitList" class="select" id="orgAssetDropdown">
+                        <option selected>Seçiniz..</option>
+                    </select>
+                    <span asp-validation-for="OrgAssetId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-block mb-3">
+                    <label asp-for="EmployeeId" class="control-label">
+                    </label>
+                    <select asp-for="EmployeeId" asp-items="Model.EmployeeList" class="select">
+                        <option selected>Seçiniz..</option>
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="input-block mb-3">
+                    <label asp-for="AssignmentDate" class="control-label">
+                    </label>
+                    <input asp-for="AssignmentDate" class="form-control" type="date">
+                    <span asp-validation-for="AssignmentDate" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <button class="btn btn-primary" type="submit"> Zimmet Ata</button>
+            <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="EmployeeDebit" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Kategori ComboBox'ının değişim olayını dinle
+            $('#categoryDropdown').change(function () {
+                var categoryId = $(this).val(); // Seçilen kategori değeri
+                if (categoryId) {
+                    // AJAX isteği gönder
+                    $.ajax({
+                        url: '@Url.Action("GetOrgAssetsByCategory", "EmployeeDebit")',
+                        type: 'GET',
+                        data: { categoryId: categoryId },
+                        success: function (data) {
+                            // Verileri döndüren metodu çağırın ve ürünler ComboBox'ına ekleyin
+                            populateProducts(data);
+                        }
+                    });
+                } else {
+                    // Kategori seçilmemişse ürünleri temizle
+                    $('#orgAssetDropdown').empty();
+                }
+            });
+        });
+
+        function populateProducts(data) {
+            var orgAssetDropdown = $('#orgAssetDropdown');
+            orgAssetDropdown.empty(); // Ürünleri temizle
+
+            $.each(data, function (index, item) {
+                orgAssetDropdown.append($('<option>', {
+                    value: item.value,
+                    text: item.text
+                }));
+            });
+        }
+
+    </script>
+}
+
+
+
+
+
+

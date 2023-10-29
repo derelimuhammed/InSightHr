@@ -1,0 +1,71 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.SalaryVms;
+@model List<SalaryListVm>
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Çalışan Maaşları</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Salary" asp-action="Index">Maaş Listesi</a></li>
+                    <li class="breadcrumb-item active">Maaş Geçmişi </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <table class="table table-striped custom-table mb-0 datatable">
+                    <thead>
+                        <tr>
+                            <th class="width-thirty">No</th>
+                            <th>Çalışan Ad Soyad </th>
+                            <th>Maaş Başlangıç Tarihi </th>
+                            <th>Maaş Bitiş Tarihi </th>
+                            <th>Maaş </th>
+                            <th class="text-center">Durum </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                double tutar = item.Salary;
+                                string formatliTutar = string.Format("{0:C}", tutar);
+                                <tr>
+                                    <td>@(Model.IndexOf(item) + 1)</td>
+                                    <td>@item.EmployeeName</td>
+                                    <td>@item.SalaryDate.ToShortDateString()</td>
+                                    <td>@item.SalaryEndDate.ToShortDateString()</td>
+                                    <td>@formatliTutar</td>
+                                    <td class="text-center">
+                                        @if (item.SalaryStatus == SalaryStatus.Current)
+                                        {
+                                            <span class="badge bg-inverse-info">Güncel</span>
+                                        }
+                                        @if (item.SalaryStatus == SalaryStatus.Previous)
+                                        {
+                                            <span class="badge bg-inverse-danger">Önceki</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <a class="btn btn-secondary mt-5" asp-area="OrganizationAdmin" asp-controller="Salary" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+            </div>
+        </div>
+    </div>
+</div>
+

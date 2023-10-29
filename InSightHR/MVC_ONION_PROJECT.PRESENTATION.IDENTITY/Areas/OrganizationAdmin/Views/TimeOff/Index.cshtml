@@ -1,0 +1,128 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.TimeOffVms;
+@model List<TimeOffListVm>;
+@{
+    Layout = "_Layout";
+}
+<div class="page-heade">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">İzinler</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item active">İzin Listesi</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="dropdown action-label col-auto float-end ms-auto" id="filterDropdown">
+        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i id="activeclass" class="fa-regular fa-circle-dot text-warning"> </i>
+            <span id="selectedFilter">Beklemede</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" onclick="setFilter('Hepsi','fa-regular fa-circle-dot')">
+                <i class="fa-regular fa-circle-dot"></i>
+                Hepsi
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Reddedildi','fa-regular fa-circle-dot text-danger')">
+                <i class="fa-regular fa-circle-dot text-danger"></i>
+                Reddedildi
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Atandı','fa-regular fa-circle-dot text-success')">
+                <i class="fa-regular fa-circle-dot text-success"></i>
+                Atandı
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Beklemede','fa-regular fa-circle-dot text-warning')">
+                <i class="fa-regular fa-circle-dot text-warning"></i>
+                Beklemede
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table">
+            <table class="table table-striped custom-table mb-0" id="TimeOffListTable">
+                <thead>
+                    <tr>
+                        <th>Çalışan Resmi</th>
+                        <th>Çalışan</th>
+                        <th>İzin Tipi</th>
+                        <th>İzin Talep Tarihi</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th>Süre</th>
+                        <th class="text-center">Durumu</th>
+
+                    </tr>
+                </thead>
+                <tbody id="TimeOffListContainer">
+                    @Html.Partial("_TimeOffListPartial", Model)
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<button onclick="exportAllTablesToExcel()">Excel'e Aktar</button>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde DataTable'ı oluştur
+            $('#TimeOffListTable').DataTable();
+
+            // Sayfa ilk açıldığında verileri yükleme işlemi
+        });
+        function setFilter(filter, className) {
+            // Seçilen filtre öğesini güncelle
+            document.getElementById("selectedFilter").textContent = filter;
+            document.getElementById("activeclass").className = className;
+            // Diğer işlemleri burada yapabilirsiniz.
+            selectedFilter = filter;
+            $("#selectedFilter").text(filter);
+            // Seçilen filtreye göre liste yeniden yükleniyor (örnek işlem)
+            reloadList(filter);
+        }
+
+        function reloadList(filter) {
+            $.ajax({
+                url: '@Url.Action("GetFilter","TimeOff")', // PartialView'in alınacağı Action
+                data: { filter: filter },
+                type: 'GET',
+                success: function (result) {
+                    var table = $('#TimeOffListTable').DataTable();
+                    table.clear().destroy();
+                    $('#TimeOffListContainer').html(result);
+                    $('#TimeOffListTable').DataTable();
+                },
+                error: function (error) {
+                    console.error('Yeniden yükleme hatası:', error);
+                }
+            });
+        }
+
+        function setTimeOffa(Id, returnStatus) {
+            updateTimeoff(Id, returnStatus);
+            reloadList(filter);
+        }
+        function updateTimeoff(Id, returnStatus) {
+            var url = '/OrganizationAdmin/TimeOff/SetTimeOff/' + Id + '/' + returnStatus;
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function (result) {
+                    setFilter('Hepsi', 'fa-regular fa-circle-dot')
+                    // Başarılı yanıt işleme kodları
+                },
+                error: function (error) {
+                    console.error('Yeniden yükleme hatası:', error);
+                }
+            });
+
+        }
+    </script>
+}

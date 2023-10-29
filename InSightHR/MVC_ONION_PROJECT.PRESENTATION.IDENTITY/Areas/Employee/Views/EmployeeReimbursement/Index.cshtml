@@ -1,0 +1,120 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.EmployeeReimbursementVms
+@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@model List<EmployeeReimbursementListVm>;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Masraflar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item active">Masraflar</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a class="btn add-btn" asp-controller="EmployeeReimbursement" asp-action="AddReimbursement"><i class="fa-solid fa-plus"></i>Harcama Talebi Oluştur</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table">
+            <table class="table table-striped custom-table leave-employee-table mb-0 ">
+                <thead>
+                    <tr>
+                        <th>Sıra</th>
+                        <th>Masraf Miktarı</th>
+                        <th>Açıklama</th>
+                        <th class="text-center">Durumu</th>
+                        <th class="text-end">Eylemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {            
+                        decimal tutar = item.Amount; 
+                        string formatliTutar = string.Format("{0:C}", tutar);
+                        <tr>
+                            <td>@(Model.IndexOf(item) + 1)</td>  
+                            <td>@formatliTutar</td>
+                            <td>@item.Description</td>
+                            <td class="text-center">
+                                @if (item.PaymentStatus == PaymentStatus.Pending)
+                                {
+                                    <span class="badge bg-inverse-info">Onayda</span>
+                                }
+                                @if (item.PaymentStatus == PaymentStatus.Rejected)
+                                {
+                                    <span class="badge bg-inverse-danger">İptal Edildi</span>
+                                }
+                                @if (item.PaymentStatus == PaymentStatus.Accepted)
+                                {
+                                    <span class="badge bg-inverse-info">Onaylandı</span>
+                                }
+                            </td>
+                            @* <td>
+                        <div class="action-label">
+                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                        <i class="fa-regular fa-circle-dot"></i> @item.ReturnStatus.ToString()
+                        </a>
+                        </div>
+                        </td> *@
+                            @*<td>
+                        <h2 class="table-avatar">
+                        <a href="profile.html" class="avatar avatar-xs"><img src="assets/img/profiles/avatar-09.jpg" alt="User Image"></a>
+                        <a href="#"></a>
+                        </h2>
+                        </td>*@
+                            <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+
+                                        <a class="dropdown-item" asp-controller="EmployeeReimbursement" asp-action="EditReimbursement" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i> Düzenle</a>
+
+                                        <a class="dropdown-item" asp-controller="EmployeeReimbursement" asp-action="DetailsReimbursement" asp-route-id="@item.Id"><i class="fa-regular fa-eye m-r-5"></i>Detaylar</a>
+
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_advancepayment_@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i>Sil</a>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Delete Modal -->
+                        <div class="modal custom-modal fade" id="delete_advancepayment_@item.Id" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="form-header">
+                                            <h3>Masraf Talebi Sil</h3>
+                                            <p>Bu masraf talebini silmek istiyor musunuz?</p>
+                                        </div>
+                                        <div class="modal-btn delete-action">
+                                            <div class="row">
+                                                <div class="offset-2 col-3">
+                                                    <!-- Delete Button with Form Submission -->
+                                                    <form method="post" asp-controller="EmployeeReimbursement" asp-action="Delete" asp-route-id="@item.Id">
+                                                        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-trash-can m-r-5"> </i> Sil</button>
+                                                    </form>
+                                                </div>
+                                                <div class="offset-2 col-3">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i>  İptal</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

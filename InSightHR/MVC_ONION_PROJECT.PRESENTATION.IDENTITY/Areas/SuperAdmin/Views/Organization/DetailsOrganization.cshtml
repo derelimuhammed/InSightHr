@@ -1,0 +1,62 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.OrganizationVms;
+@model OrganizationDetailsVm;
+@{Layout="_Layout";}
+<div class="card mb-0">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-view">
+                    <div class="profile-img-wrap">
+                        <div class="profile-img">
+                            <a href="#">
+
+                                @{
+                                    var encoder = Convert.ToBase64String(Model?.Logo ?? new byte[0]);
+                                }
+
+                                <img src="data:image/jpeg;base64,@(encoder)"
+                                     alt="User Image">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="profile-basic">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="profile-info-left">
+                                    <h3 class="user-name m-t-0 mb-0">@Model?.OrganizationName</h3>
+                                    <div class="staff-id">Paket Tipi : @Model?.Package.PackageName</div>
+                                    <div class="small doj text-muted">Paketteki kişi Sayısı : @Model?.Package.NumberOfUser.ToString()</div>
+                                    <div class="small doj text-muted">Paket Bitiş Tarihi : @Model?.ContractEnd.ToShortDateString()</div>
+                                    <div class="small doj text-muted">Paket Bitiş Tarihi : @Model?.ContractStart.ToShortDateString()</div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Telefon Numarası:</div>
+                                        <div class="text">@Model?.OrganizationPhone</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Email:</div>
+                                        <div class="text">@Model?.OrganizationEmail</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Adres:</div>
+                                        <div class="text">
+                                            @Model?.OrganizationAddress
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Çalışan Sayısı:</div>
+                                        <div class="text">@Model?.EmployeeOfNumber</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

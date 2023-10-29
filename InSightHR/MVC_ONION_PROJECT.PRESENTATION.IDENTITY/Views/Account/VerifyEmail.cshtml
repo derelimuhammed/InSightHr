@@ -1,0 +1,51 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Vms;
+@model VerifyEmailVm;
+@{
+    Layout = "_Layout";
+}
+<body class="account-page">
+
+    <div class="main-wrapper">
+        <div class="account-content">
+
+            <div class="account-logo">
+                <a href="admin-dashboard.html"><img src="assets/img/logo2.png" alt="Dreamguy's Technologies"></a>
+            </div>
+            <div class="account-box">
+                <div class="account-wrapper">
+                    <h3 class="account-title">Change Password</h3>
+                    <form form method="post" asp-controller="Account" asp-action="VerifyEmail">
+
+                        <div class="input-block mb-3">
+                            <input asp-for="@Model.Token" value="@Model.Token" type="hidden" class="form-control" />
+                            <input asp-for="@Model.Id" type="hidden" value="@Model.Id" class="form-control" />
+                            <label asp-for="@Model.NewPassword" class="control-label"></label>
+                            <input asp-for="@Model.NewPassword" class="form-control" />
+                            <span asp-validation-for="@Model.NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label asp-for="@Model.CorfirmPassword" class="control-label"></label>
+                            <input asp-for="@Model.CorfirmPassword" class="form-control" />
+                            <span asp-validation-for="@Model.CorfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="submit-section mb-4">
+                            <button type="submit" class="btn btn-primary submit-btn">Update Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="assets/js/jquery-3.7.0.min.js"></script>
+
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/jquery.slimscroll.min.js"></script>
+
+    <script src="assets/js/select2.min.js"></script>
+
+    <script src="assets/js/app.js"></script>
+</body>

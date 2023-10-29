@@ -1,0 +1,303 @@
+﻿@using MVC_ONION_PROJECT.APPLICATION.Services.EmployeeServicces;
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IEmployeeService employeservice
+
+<!DOCTYPE html>
+<html lang="tr" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+
+<!-- Mirrored from smarthr.dreamguystech.com/html/template/admin-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 18:03:12 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smarthr - Bootstrap Admin Template">
+    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <title>Dashboard - INSIGHTHR Admin</title>
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/MVC_ONION_PROJECT.PRESENTATION.IDENTITY.styles.css" asp-append-version="true" />
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/InSight-Favicon.png">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/line-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/material.css">
+    <link rel="stylesheet" href="/assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/plugins/morris/morris.css">
+    
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    @*<link rel="stylesheet" href="/assets/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css">*@
+
+    <title>@ViewData["Title"] - INSIGHTHR</title>
+</head>
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a asp-controller="Home" asp-action="index" class="logo">
+                    <img src="/assets/img/InSight_white .png" width="60" height="60" alt="Logo">
+                </a>
+                <a asp-controller="Home" asp-action="index" class="logo2">
+                    <img src="/assets/img/InSight_logo.png" width="40" height="40" alt="Logo">
+                </a>
+            </div>
+
+            <a id="toggle_btn" href="javascript:void(0);">
+                <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+
+            <div class="page-title-box">
+                <h3>InSightHR</h3>
+            </div>
+
+            <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa-solid fa-bars"></i></a>
+
+            <ul class="nav user-menu">
+
+               @*  <li class="nav-item">
+                    <div class="top-nav-search">
+                        <a href="javascript:void(0);" class="responsive-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </a>
+                        <form action="https://smarthr.dreamguystech.com/html/template/search.html">
+                            <input class="form-control" type="text" placeholder="Search here">
+                            <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
+                </li> *@
+
+
+                <li class="nav-item flag-nav">
+                    <a class="nav-link" href="#">
+                        <img src="/assets/img/flags/tr.png" alt="Flag" height="20"> <span>Türkçe</span>
+                    </a>
+                    @* <div class="dropdown-menu dropdown-menu-right">
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="/assets/img/flags/us.png" alt="Flag" height="16"> İngilizce
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="/assets/img/flags/tr.png" alt="Flag" height="16"> Türkçe
+                        </a>
+                    </div> *@
+                </li>
+
+
+                @* <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <i class="fa-regular fa-bell"></i> <span class="badge rounded-pill">3</span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Notifications</span>
+                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                        </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="chat-block d-flex">
+                                            <span class="avatar flex-shrink-0">
+                                                <img src="/assets/img/profiles/avatar-02.jpg" alt="User Image">
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+                                                <p class="noti-time"><span class="notification-time">2 days ago</span></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li> *@
+
+
+                @* <li class="nav-item dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <i class="fa-regular fa-comment"></i><span class="badge rounded-pill">8</span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">Messages</span>
+                            <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                        </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="chat.html">
+                                        <div class="list-item">
+                                            <div class="list-left">
+                                                <span class="avatar">
+                                                    <img src="/assets/img/profiles/avatar-09.jpg" alt="User Image">
+                                                </span>
+                                            </div>
+
+                                            <div class="list-body">
+                                                <span class="message-author">Mike Litorus</span>
+                                                <span class="message-time">3 Mar</span>
+                                                <div class="clearfix"></div>
+                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="chat.html">
+                                        <div class="list-item">
+                                            <div class="list-left">
+                                                <span class="avatar">
+                                                    <img src="/assets/img/profiles/avatar-08.jpg" alt="User Image">
+                                                </span>
+                                            </div>
+                                            <div class="list-body">
+                                                <span class="message-author"> Catherine Manseau </span>
+                                                <span class="message-time">27 Feb</span>
+                                                <div class="clearfix"></div>
+                                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="chat.html">View all Messages</a>
+                        </div>
+                    </div>
+                </li> *@
+                @{
+
+                    var employee = await employeservice.GetByidentityIdAsync(Guid.Parse(SignInManager.Context.User?.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    string encodedData = Convert.ToBase64String(employee?.Data?.Photo);
+                }
+                <li class="nav-item dropdown has-arrow main-drop">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img src="data:image/jpeg;base64,@(encodedData)" alt="User Image">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@(employee.Data.Name+" "+ employee.Data.Surname)</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-controller="Home" asp-action="Profile">Profil</a>
+                        <a class="dropdown-item"><a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword">Şifre Değiştir</a></a>
+                        <a class="dropdown-item" asp-controller="home" asp-action="LogOut">Çıkış Yap</a>
+                    </div>
+                </li>
+            </ul>
+
+
+            <div class="dropdown mobile-user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" asp-controller="Home" asp-action="Profile">Profil</a>
+                    <a class="dropdown-item"><a class="dropdown-item" asp-controller="Home" asp-action="ChangePassword">Şifre Değiştir</a></a>
+                    <a class="dropdown-item" asp-controller="home" asp-action="LogOut">Çıkış Yap</a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+
+                    <ul class="sidebar-vertical">
+                        <li class="menu-title">
+                            <span>Menüler</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="la la-user"></i> <span> Çalışanlar</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a asp-controller="Employee" asp-action="index">Tüm Çalışanlar</a></li>
+                                <li><a asp-controller="Department" asp-action="index">Departmanlar</a></li>
+                                <li><a asp-controller="TimeOff" asp-action="index">Çalışan İzinleri</a></li>
+                                <li><a asp-controller="Salary" asp-action="index">Çalışan Maaşları</a></li>
+                                <li><a asp-controller="AdvancePayment" asp-action="index">Çalışan Avansları</a></li>
+                                <li><a asp-controller="Reimbursement" asp-action="index">Çalışan Masrafları</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="la la-object-ungroup"></i> <span> Demirbaşlar</span> <span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a asp-controller="OrgAsset" asp-action="index">Tüm Demirbaşlar</a></li>
+                                <li><a asp-controller="AssetCategory" asp-action="index">Demirbaş Kategorileri</a></li>
+                                <li><a asp-controller="EmployeeDebit" asp-action="index">Çalışan Zimmetleri</a></li>
+                            </ul>
+                        </li>
+                        @if (employee.Data.Role.ToString()=="SuperAdmin")
+                        {
+                            <li><a asp-area="SuperAdmin" asp-controller="Home" asp-action="index"><i class="fa-sharp fa-solid fa-arrow-left fa-beat"></i>Super Admin Sayfasına Geri Dön</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="page-wrapper">
+
+            <div class="content container-fluid">
+                @RenderBody()
+            </div>
+
+        </div>
+
+
+
+        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/assets/js/jquery-3.7.0.min.js"></script>
+        @*eklenen*@
+        <script src="/assets/js/jquery-3.7.0.min.js"></script>
+
+        @*Template*@
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/assets/js/select2.min.js"></script>
+        <script src="/assets/js/moment.min.js"></script>
+        <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/assets/js/jquery.dataTables.min.js"></script>
+        <script src="/assets/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="/assets/plugins/morris/morris.min.js"></script>
+        <script src="/assets/plugins/raphael/raphael.min.js"></script>
+        <script src="/assets/js/chart.js"></script>
+        <script src="/assets/js/greedynav.js"></script>
+        <script src="/assets/js/layout.js"></script>
+        <script src="/assets/js/theme-settings.js"></script>
+        <script src="/assets/js/app.js"></script>
+
+        @*eklenen*@
+        <script src="/assets/js/jquery.maskedinput.min.js"></script>
+        <script src="/assets/js/mask.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+        @await Component.InvokeAsync("Notyf")
+        <script src="/assets/js/select2.min.js"></script>
+        <script src="/assets/js/mine.js"></script>
+        <script src="/assets/js/ExcelJS.js"></script>
+        <script src="/assets/js/mine2.js"></script>
+</body>
+
+<!-- Mirrored from smarthr.dreamguystech.com/html/template/admin-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 18:03:41 GMT -->
+</html>

@@ -1,0 +1,71 @@
+﻿
+@using System.Security.Claims;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.SuperAdminVm;
+@model SuperAdminDetailsVm;
+
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card mb-0">
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-view">
+                    <div class="profile-img-wrap">
+                        <div class="profile-img">
+                            <a href="#">
+
+                                @{
+                                    var encoder = Convert.ToBase64String(Model?.Photo ?? new byte[0]);
+
+                                }
+
+                                <img src="data:image/jpeg;base64,@(encoder)"
+                                     alt="User Image">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="profile-basic">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="profile-info-left">
+                                    <h3 class="user-name m-t-0 mb-0">@Model?.Name @Model?.Surname</h3>
+                                    <div class="small doj text-muted">İşe Giriş Tarihi : @Model?.RecruitmentDate.ToShortDateString()</div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <ul class="personal-info">
+                                    <li>
+                                        <div class="title">Telefon Numarası:</div>
+                                        <div class="text">@Model?.PhoneNumber</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Email:</div>
+                                        <div class="text">@User.FindFirst(ClaimTypes.Email)?.Value</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Adres:</div>
+                                        <div class="text">
+                                            @Model?.Address
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Departman Adı:</div>
+                                        <div class="text">@Model?.DepartmentName</div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Cinsiyet:</div>
+                                        <div class="text">@Model?.GenderStatus</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

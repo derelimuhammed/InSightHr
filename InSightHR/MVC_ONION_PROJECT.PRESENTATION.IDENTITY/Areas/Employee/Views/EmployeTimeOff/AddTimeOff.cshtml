@@ -1,0 +1,78 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.TimeOffVms;
+@model TimeOffCreateVm;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">İzinler</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="EmployeTimeOff" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="EmployeTimeOff" asp-action="Index">İzinler</a></li>
+                <li class="breadcrumb-item active">Yeni İzin</li>
+            </ul>
+        </div>
+    </div>
+    <form asp-area="Employee" asp-controller="EmployeTimeOff" asp-action="AddTimeOff">
+
+        <div class="col-md-6 col-sm-12 mb-5">
+            <div class="input-block mb-3">
+                <label asp-for="StartTime" class="control-label">Başlangıç Tarihi</label>
+                <input asp-for="StartTime" class="form-control" type="date">
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-12 mb-5">
+            <div class="input-block mb-3">
+                <label asp-for="EndTime" class="control-label">Bitiş Tarihi</label>
+                <input asp-for="EndTime" class="form-control" type="date">
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-12 mb-5">
+            <div class="input-block mb-3 form-focus ">
+                <textarea asp-for="Reason" rows="5" class="form-control floating"></textarea>
+                <label asp-for="Reason" class="focus-label"></label>
+                <span asp-validation-for="Reason" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 mb-5">
+            <div class="input-block mb-3">
+                <label asp-for="TimeOffTypeId" class="col-form-label"></label>
+                <select asp-for="TimeOffTypeId" asp-items="Model.TimeOffList" class="form-control select">
+                    <option value="" selected>Seçiniz..</option>
+                </select>
+                <span asp-validation-for="TimeOffTypeId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <button class="btn btn-primary" type="submit">Oluştur</button>
+            <a class="btn btn-secondary" asp-area="Employee" asp-controller="EmployeTimeOff" asp-action="Index"> <i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+        </div>
+    </form>
+
+</div>
+
+@* <script>
+    function calculateDateDifference() {         // Başlangıç ve bitiş tarihlerini alın
+        var startDateString = document.getElementById("StartTime").value;
+        var endDateString = document.getElementById("EndTime").value;// Tarihleri JavaScript Date nesnelerine dönüştürün
+        var endDatePicker = document.getElementById("EndTime"); endDatePicker.addEventListener("change", calculateDateDifference);
+        var startDate = new Date(startDateString);
+        var endDate = new Date(endDateString);         // Tarih farkını hesaplayın (milisaniye cinsinden)
+        var dateDifference = endDate - startDate;         // Gün cinsinden farkı hesaplayın
+        var daysDifference = Math.floor(dateDifference / (1000 * 60 * 60 * 24));         // Sonucu görüntüleyin
+        var resultDiv = document.getElementById("NumberOfDays");
+        resultDiv.innerHTML = daysDifference;
+
+    }
+</script> *@

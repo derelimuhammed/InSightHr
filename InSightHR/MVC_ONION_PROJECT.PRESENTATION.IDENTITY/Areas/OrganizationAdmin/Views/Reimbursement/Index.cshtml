@@ -1,0 +1,125 @@
+﻿@model List<MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.ReimbursementVm.ReimbursementListVm>;
+@{
+    Layout = "_Layout";
+}
+<div class="page-heade">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Masraf</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Masraf</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="dropdown action-label col-auto float-end ms-auto" id="filterDropdown">
+        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i id="activeclass" class="fa-regular fa-circle-dot text-warning"> </i>
+            <span id="selectedFilter">Hepsi</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" onclick="setFilter('Hepsi','fa-regular fa-circle-dot')">
+                <i class="fa-regular fa-circle-dot"></i>
+                Hepsi
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Reddedildi','fa-regular fa-circle-dot text-danger')">
+                <i class="fa-regular fa-circle-dot text-danger"></i>
+                Reddedildi
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Onaylandı','fa-regular fa-circle-dot text-success')">
+                <i class="fa-regular fa-circle-dot text-success"></i>
+                Onaylandı
+            </a>
+            <a class="dropdown-item" onclick="setFilter('Beklemede','fa-regular fa-circle-dot text-warning')">
+                <i class="fa-regular fa-circle-dot text-warning"></i>
+                Beklemede
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table table-striped custom-table mb-0" id="ReimbursementListTable">
+                <thead>
+                    <tr>
+                        <th>Çalışan</th>
+                        <th>Masraf Miktarı</th>
+                        <th>Masraf İstenilen Zaman</th>
+                        <th class="text-center">Statü</th>
+
+                    </tr>
+                </thead>
+                <tbody id="ReimbursementListContainer">
+                    @Html.Partial("_ReimbursementListPartial", Model)
+                </tbody>
+            </table>
+       
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde DataTable'ı oluştur
+            $('#ReimbursementListTable').DataTable();
+
+            // Sayfa ilk açıldığında verileri yükleme işlemi
+        });
+        function setFilter(filter, className) {
+            // Seçilen filtre öğesini güncelle
+            document.getElementById("selectedFilter").textContent = filter;
+            document.getElementById("activeclass").className = className;
+            // Diğer işlemleri burada yapabilirsiniz.
+            selectedFilter = filter;
+            $("#selectedFilter").text(filter);
+            // Seçilen filtreye göre liste yeniden yükleniyor (örnek işlem)
+            reloadList(filter);
+        }
+
+        function reloadList(filter) {
+            $.ajax({
+                url: '@Url.Action("GetFilter","Reimbursement")', // PartialView'in alınacağı Action
+                data: { filter: filter },
+                type: 'GET',
+                success: function (result) {
+                    var table = $('#ReimbursementListTable').DataTable();
+                    table.clear().destroy();
+                    $('#ReimbursementListContainer').html(result);
+                    // DataTable yeniden oluştur
+                    $('#ReimbursementListTable').DataTable();
+                },
+                error: function (error) {
+                    console.error('Yeniden yükleme hatası:', error);
+                }
+            }); 
+        }
+        $(function () {
+            $("#userTable").load("@Url.Action("SetReimbursement","Reimbursement")");
+        });
+        function setReimbursement(Id, returnStatus) {
+            updateTimeoff(Id, returnStatus);
+            reloadList(filter);
+        }
+        function updateTimeoff(Id, returnStatus) {
+            var url = '/OrganizationAdmin/Reimbursement/SetReimbursement/' + Id + '/' + returnStatus;
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function (result) {
+                    setFilter('Hepsi', 'fa-regular fa-circle-dot')
+                    // Başarılı yanıt işleme kodları
+                },
+                error: function (error) {
+                    console.error('Yeniden yükleme hatası:', error);
+                }
+            });
+
+        }
+    </script>
+}

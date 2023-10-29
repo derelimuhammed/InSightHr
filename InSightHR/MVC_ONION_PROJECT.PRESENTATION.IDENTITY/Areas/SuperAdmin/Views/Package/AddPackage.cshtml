@@ -1,0 +1,58 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.Package.PackageCreateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Çalışan Maaşları</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Paket" asp-action="Index">Paket Listesi</a></li>
+                <li class="breadcrumb-item active">Paket Ekleme</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="SuperAdmin" enctype="multipart/form-data" asp-controller="Package" asp-action="AddPackage">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="PackageName" class="control-label">
+                </label>
+                <input asp-for="PackageName" class="form-control" type="text">
+                <span asp-validation-for="PackageName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Price" class="control-label">
+                </label>
+                <input asp-for="Price" class="form-control" type="number">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="NumberOfUser" class="control-label">
+                </label>
+                <input asp-for="NumberOfUser" class="form-control" type="number">
+                <span asp-validation-for="NumberOfUser" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="PackageDurationMonth" class="control-label">
+                </label>
+                <input asp-for="PackageDurationMonth" class="form-control" type="number">
+                <span asp-validation-for="PackageDurationMonth" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Kaydet</button>
+        <a class="btn btn-secondary" asp-area="SuperAdmin" asp-controller="Package" asp-action="index"><i class="fa-regular fa-circle-xmark"></i>  İptal</a>
+    </div>
+</form>

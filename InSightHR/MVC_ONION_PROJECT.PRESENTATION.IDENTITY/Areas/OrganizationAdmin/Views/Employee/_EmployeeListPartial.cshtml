@@ -1,0 +1,87 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeVms;
+@model List<EmployeeListVm>
+@if (Model.Count() != 0)
+{
+    @foreach (var item in Model)
+    {
+        string encodedData = Convert.ToBase64String(item.Photo);
+
+        string defaultImageURL = "";
+        defaultImageURL = $"data:image/jpeg;base64,{encodedData}";
+  
+
+        <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
+            <div class="profile-widget">
+                <div class="profile-img">
+                    <a asp-controller="Employee" asp-action="DetailsEmployee" asp-route-id="@item.Id" class="avatar">
+                        <img src="@defaultImageURL" alt="User Image">
+                    </a>
+                </div>
+                <div class="dropdown profile-action">
+                    <a class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                       aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" asp-controller="Employee" asp-action="EditEmployee" asp-route-id="@item.Id">
+                            <i class="fa-solid fa-pencil m-r-5" id"></i>
+                            Güncelle
+                        </a>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employee_@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Sil</a>
+                        <a class="dropdown-item" asp-controller="Employee" asp-action="EmployeeDebit" asp-route-employeeId="@item.Id">
+                            <i class="fa-solid fa-key m-r-5"></i>
+                            Zimmetler
+                        </a>
+                    </div>
+                </div>
+                <h4 class="user-name m-t-10 mb-0 text-ellipsis">@item.Name @item.Surname</h4>
+                <div class="dropdown action-label">
+                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-regular fa-circle-dot @(item.IsActive ? "text-success" : "text-danger") "> <span style="font-family:Arial, sans-serif">@(item.IsActive ? "Active" : "Inactive")</span> </i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <form method="post" asp-controller="Employee" asp-action="ActiveOrPasive" asp-route-id="@item.Id" asp-route-isActive="true">
+                            <button class="btn dropdown-item" type="submit">
+                                <i class="fa-regular fa-circle-dot text-success"></i>
+                                Active
+                            </button>
+                        </form>
+                        <form method="post" asp-controller="Employee" asp-action="ActiveOrPasive" asp-route-id="@item.Id" asp-route-isActive="false">
+                            <button class="btn dropdown-item" type="submit">
+                                <i class="fa-regular fa-circle-dot text-danger"></i>
+                                Inactive
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- delete Modal -->
+        <div class="modal custom-modal fade" id="delete_employee_@item.Id" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h3>Çalışan Silme</h3>
+                            <p>@item.Name @item.Surname çalışanını silmek istediğinize emin misiniz?</p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="offset-2 col-3">
+                                    <!-- Delete Button with Form Submission -->
+                                    <form method="post" asp-controller="Employee" asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-trash-can m-r-5"> </i> Sil</button>
+                                    </form>
+                                </div>
+                                <div class="offset-2 col-3">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i>  İptal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

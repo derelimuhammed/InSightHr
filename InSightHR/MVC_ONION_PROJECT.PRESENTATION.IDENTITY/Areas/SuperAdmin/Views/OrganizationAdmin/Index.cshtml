@@ -1,0 +1,91 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.OrganizationAdminVms;
+@model List<OrganizationAdminListVm>;
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="content container-fluid ">
+
+    <div class="page-heade">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Çalışanlar</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Çalışan Listesi</li>
+                </ul>
+            </div>
+
+            <div class="dropdown action-label col-auto float ms-auto" id="filterDropdown">
+                <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i id="activeclass" class="fa-regular fa-circle-dot"> </i>
+                    <span id="selectedFilter">All</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" onclick="setFilter('All','fa-regular fa-circle-dot')">
+                        <i class="fa-regular fa-circle-dot"></i>
+                        All
+                    </a>
+                    <a class="dropdown-item" onclick="setFilter('Active','fa-regular fa-circle-dot text-success')">
+                        <i class="fa-regular fa-circle-dot text-success"></i>
+                        Active
+                    </a>
+                    <a class="dropdown-item" onclick="setFilter('Inactive','fa-regular fa-circle-dot text-danger')">
+                        <i class="fa-regular fa-circle-dot text-danger"></i>
+                        Inactive
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-auto float-end ms-auto">
+                <a class="btn add-btn" asp-area="OrganizationAdmin" asp-controller="Employee" asp-action="AddEmployee">
+                    <i class="fa-solid fa-plus"></i> Çalışan Ekle
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row staff-grid-row" id="employeeListContainer">
+        @Html.Partial("_OrganizationAdminListPartial", Model)
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        function setFilter(filter, className) {
+            // Seçilen filtre öğesini güncelle
+            document.getElementById("selectedFilter").textContent = filter;
+            document.getElementById("activeclass").className = className;
+            // Diğer işlemleri burada yapabilirsiniz.
+            selectedFilter = filter;
+            $("#selectedFilter").text(filter);
+            // Seçilen filtreye göre liste yeniden yükleniyor (örnek işlem)
+            reloadList(filter);
+        }
+
+        function reloadList(filter) {
+            $.ajax({
+                url: '@Url.Action("GetFilter", "OrganizationAdmin")', // PartialView'in alınacağı Action
+                data: { filter: filter },
+                type: 'GET',
+                success: function (result) {
+                    $('#employeeListContainer').html(result);
+                },
+                error: function (error) {
+                    console.error('Yeniden yükleme hatası:', error);
+                }
+            });
+        }
+    </script>
+}
+
+
+
+
+
+

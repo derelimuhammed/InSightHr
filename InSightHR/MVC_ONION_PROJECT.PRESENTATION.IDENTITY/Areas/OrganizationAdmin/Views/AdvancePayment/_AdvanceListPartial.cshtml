@@ -1,0 +1,49 @@
+﻿@using MVC_ONION_PROJECT.APPLICATION.Services.EnumHelpers;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.AdvanceVms;
+@model List<AdvanceListVm>;
+@inject IEnumHelperService enumhelper;
+@foreach (var item in Model)
+{
+    string encodedData = " ";
+    if (item?.Employee?.Photo != null)
+    {
+        encodedData = Convert.ToBase64String(item.Employee.Photo);
+    }
+    decimal tutar = item.AdvancePrice;
+    string formatliTutar = string.Format("{0:C}", tutar);
+    <tr>
+        <td>
+            <a href="#" class="avatar">
+                <img src="data:image/jpeg;base64,@(encodedData)" alt="User Image">
+            </a>
+        </td> 
+        <td>
+                <a href="#">@(item.Employee.Name + " " + item.Employee.Surname) <span></span></a>
+        </td>
+        <td>@formatliTutar</td>
+        <td>@item.CreatedDate.Date.ToShortDateString()</td>
+        <td class="text-center">
+            <div class="dropdown action-label">
+                <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="@item.ReturnStatus.ToString()"></i> @(enumhelper.GetDisplayName(item.ReturnStatus))
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item " asp-action="RejectedResponse" asp-controller="AdvancePayment" asp-route-Id="@item.Id">
+                        <i class="fa-regular fa-circle-dot text-danger"></i>
+                        <span>Reddedildi</span>
+                    </a>
+                    <a class="dropdown-item" onclick="setAdvancePayment('@item.Id.ToString()','Atandı')">
+                        <i class="fa-regular fa-circle-dot text-success"></i>
+                        <span> Atandı</span>
+                    </a>
+                    <a class="dropdown-item" onclick="setAdvancePayment('@item.Id.ToString()','Beklemede')">
+                        <i class="fa-regular fa-circle-dot text-warning"></i>
+                        <span> Beklemede</span>
+                    </a>
+                </div>
+            </div>
+        </td>
+
+    </tr>
+}

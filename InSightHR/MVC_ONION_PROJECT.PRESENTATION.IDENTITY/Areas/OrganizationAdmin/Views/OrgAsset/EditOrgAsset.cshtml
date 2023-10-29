@@ -1,0 +1,89 @@
+﻿@using MVC_ONION_PROJECT.APPLICATION.Services.EnumHelpers;
+@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.OrgAssetVms.OrgAssetUpdateVm;
+@inject IEnumHelperService enumhelper;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Demirbaş Listesi</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="OrgAsset" asp-action="Index">Demirbaşlar </a></li>
+                <li class="breadcrumb-item active">Demirbaş Güncelle</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="OrgAsset" asp-action="EditOrgAsset">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="SerialNumber" class="control-label">
+                </label>
+                <input asp-for="SerialNumber" class="form-control" type="text">
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Name" class="control-label">
+                </label>
+                <input asp-for="Name" class="form-control" type="text">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Price" class="control-label">
+                </label>
+                <input asp-for="Price" class="form-control" type="text">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="PurchaseDate" class="control-label">
+                </label>
+                <input asp-for="PurchaseDate" class="form-control" type="date">
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="CategoryId" class="control-label">
+                </label>
+                <select asp-for="CategoryId" asp-items="Model.CategoryList" class="select">
+                    <option selected>Seçiniz..</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="AssetStatus" class="control-label">
+                </label>
+                <select asp-for="AssetStatus" asp-items="Model.AssetStatusList" class="select">
+                    <option selected>Seçiniz..</option>
+                </select>
+                <span asp-validation-for="AssetStatus" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Description" class="control-label">
+                </label>
+                <textarea asp-for="Description" rows="5" class="form-control floating"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-pencil m-r-5"></i>  Güncelle</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="OrgAsset" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>

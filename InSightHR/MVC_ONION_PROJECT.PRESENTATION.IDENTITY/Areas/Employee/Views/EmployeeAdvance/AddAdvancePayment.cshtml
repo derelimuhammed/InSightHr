@@ -1,0 +1,41 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.EmployeeAdvanceVms;
+@model EmployeeAdvanceCreateVm;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Avanslar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="EmployeeAdvance" asp-action="Index">Avanslar</a></li>
+                <li class="breadcrumb-item active">Yeni Avans Talebi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="Employee" asp-controller="EmployeeAdvance" asp-action="AddAdvancePayment">
+    <div class="col-md-6 col-sm-12 mb-4">
+        <div class="input-block mb-3 form-focus marrg">
+            <input asp-for="AdvancePrice" type="number" class="form-control floating">
+            <label asp-for="AdvancePrice" class="focus-label">Avans Miktarı</label>
+            <span asp-validation-for="AdvancePrice" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3 form-focus ">
+            <textarea asp-for="Reason" rows="5" class="form-control floating"></textarea>
+            <label asp-for="Reason" class="focus-label"></label>
+            <span asp-validation-for="Reason" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i>Avans Ekle</button>
+        <a class="btn btn-secondary " asp-area="Employee" asp-controller="EmployeeAdvance" asp-action="Index"> <i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>

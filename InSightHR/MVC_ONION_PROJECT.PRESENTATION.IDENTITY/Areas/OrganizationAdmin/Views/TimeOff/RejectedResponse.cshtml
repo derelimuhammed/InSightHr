@@ -1,0 +1,32 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.TimeOffVms.TimeOffRejectedUpdateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">İzinler</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Employee" asp-action="Index">İzin Listesi </a></li>
+                <li class="breadcrumb-item active">İzin Talep Reddi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="TimeOff" asp-action="RejectedResponse">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Description" class="control-label">
+                </label>
+                <input asp-for="Description" class="form-control" type="text">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit">Talebi Reddet</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="TimeOff" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>

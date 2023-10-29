@@ -1,0 +1,71 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeDebitVms;
+@model EmployeeDebitUpdateVm;
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="content container-fluid ">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Zimmet İşlemleri</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Zimmet Geri Alma</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="EmployeeDebit" asp-action="EditEmployeeDebit">
+        <div class="row">
+            
+            <div class="col-md-6 col-md-12 mb-4">
+                <div class="input-block mb-3">
+                    <label asp-for="EmployeeName" class="control-label"></label>
+                    <input asp-for="EmployeeName" type="text" class="form-control" readonly>   
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-md-12 mb-4">
+                <div class="input-block mb-3">
+                    <label asp-for="DebitName" class="control-label"></label>
+                    <input asp-for="DebitName" type="text" class="form-control" readonly>     
+                    <span asp-validation-for="DebitName" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <input type="hidden" asp-for="EmployeeId" />
+            <input type="hidden" asp-for="OrgAssetId" />
+
+            <div class="col-md-6">
+                <div class="input-block mb-3">
+                    <label asp-for="ReceiptDate" class="control-label">
+                    </label>
+                    <input asp-for="ReceiptDate" class="form-control" type="date">
+                    <span asp-validation-for="ReceiptDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-md-12 mb-5">
+                <div class="input-block mb-3">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>  
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-md-12">
+            <button class="btn btn-primary" type="submit"> Zimmeti Geri Al</button>
+            <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="EmployeeDebit" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+        </div>
+    </form>
+
+</div>
+

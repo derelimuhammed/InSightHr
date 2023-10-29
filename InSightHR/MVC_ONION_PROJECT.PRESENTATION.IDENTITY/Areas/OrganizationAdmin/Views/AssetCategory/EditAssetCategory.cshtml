@@ -1,0 +1,39 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.AssetCategoryVms.AssetCategoryUpdateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Demirbaş Kategorileri</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Department" asp-action="Index">Kategoriler </a></li>
+                <li class="breadcrumb-item active">Kategori Güncelle</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" asp-controller="AssetCategory" asp-action="EditAssetCategory">
+    <div class="col-md-6 col-sm-12 mb-4">
+        <div class="input-block mb-3 form-focus marrg">
+            <input asp-for="CategoryName" type="text" class="form-control floating">
+            <label asp-for="CategoryName" class="focus-label"></label>
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3 form-focus ">
+            <textarea asp-for="CategoryDescriptiom" rows="5" class="form-control floating"></textarea>
+            <label asp-for="CategoryDescriptiom" class="focus-label"></label>
+            <span asp-validation-for="CategoryDescriptiom" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="AssetCategory" asp-action="index"><i class="fa-regular fa-circle-xmark"></i>  İptal</a>
+    </div>
+</form>

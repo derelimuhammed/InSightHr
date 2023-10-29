@@ -1,0 +1,79 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeDebitVms;
+@model EmployeeDebitDetailsVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Zimmetler</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="EmployeeDebit" asp-action="Index">Zimmet Listesi </a></li>
+                <li class="breadcrumb-item active">Zimmet Detayları</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card col-md-8">
+        <div class="card-body px-3">
+            <dl class="row">
+
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.EmployeeName)
+                </dt>
+                <dd class="col-md-10">
+                    @Html.DisplayFor(model => model.EmployeeName)
+                </dd>
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.DebitName)
+                </dt>
+                <dd class="col-md-10">
+                    @Html.DisplayFor(model => model.DebitName)
+                </dd>
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.AssignmentDate)
+                </dt>
+                <dd class="col-md-10">
+                    @Html.DisplayFor(model => model.AssignmentDate)
+                </dd>
+
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.ReceiptDate)
+                </dt>
+                @if (Model.ReturnStatus == ReturnStatus.Returned)
+                {
+                    <dd class="col-md-10">
+                        @Html.DisplayFor(model => model.ReceiptDate)
+                    </dd>
+                }
+                else
+                {
+                    <dd class="col-md-10">
+                        -
+                    </dd>
+                }
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.ReturnStatus)
+                </dt>
+                <dd class="col-md-10">
+                    @Html.DisplayFor(model => model.ReturnStatus)
+                </dd>
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-md-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+            </dl>
+            <div>
+
+                <a class="btn btn-secondary" asp-action="Index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+
+            </div>
+        </div>
+    </div>
+</div>

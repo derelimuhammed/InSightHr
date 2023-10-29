@@ -1,0 +1,136 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.OrgAssetVms;
+@model List<OrgAssetListVm>
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Demirbaş Listesi</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Demirbaşlar</li>
+                </ul>
+            </div>
+            <div class="col-auto float-end ms-auto">
+                <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="OrgAsset" asp-action="AddOrgAsset"><i class="fa-solid fa-plus"></i>Demirbaş Ekle</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <table class="table table-striped custom-table mb-0" id="OrgAssetLisTable">
+                    <thead>
+                        <tr>
+                            <th class="width-thirty">No</th>
+                            <th>Seri No</th>
+                            <th>Demirbaş Adı </th>
+                            <th>Alım Tarihi </th>
+                            <th>Kategori </th>
+                            <th class="text-center">Durumu </th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Model.IndexOf(item) + 1)</td>
+                                    <td>@item.SerialNumber</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.PurchaseDate.ToShortDateString()</td>
+                                    <td>@item.CategoryName</td>
+                                    <td class="text-center">
+                                        @if (item.AssetStatus == AssetStatus.PendingApproval)
+                                        {
+                                            <span class="badge bg-inverse-info">Onayda</span>
+                                        }
+                                        @if (item.AssetStatus == AssetStatus.Assigned)
+                                        {
+                                            <span class="badge bg-inverse-success">Atandı</span>
+                                        }
+                                        @if (item.AssetStatus == AssetStatus.Rejected)
+                                        {
+                                            <span class="badge bg-inverse-danger">İptal Edildi</span>
+                                        }
+                                        @if (item.AssetStatus == AssetStatus.Returned)
+                                        {
+                                            <span class="badge bg-inverse-primary">Geri Alındı</span>
+                                        }
+                                        @if (item.AssetStatus == AssetStatus.NotAssigned)
+                                        {
+                                            <span class="badge bg-inverse-info">Atanmadı</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <!-- Edit Button -->
+                                                <a class="dropdown-item" h asp-controller="OrgAsset" asp-action="EditOrgAsset" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</a>
+                                                <!-- Details Button -->
+                                                <a class="dropdown-item" h asp-controller="OrgAsset" asp-action="DetailsOrgAsset" asp-route-id="@item.Id"><i class="fa-solid fa-eye m-r-5"></i> Detaylar</a>
+
+                                                <!-- Delete Button -->
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_OrgAsset_@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Sil</a>
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+
+                                <!-- Delete Modal -->
+                                <div class="modal custom-modal fade" id="delete_OrgAsset_@item.Id" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="form-header">
+                                                    <h3>Demirbaş Silme İşlemi</h3>
+                                                    <p>"@item.Name" demirbaş kaydını silmek istediğinize emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-btn delete-action">
+                                                    <div class="row">
+                                                        <div class="offset-2 col-3">
+                                                            <!-- Delete Button with Form Submission -->
+                                                            <form method="post" asp-controller="OrgAsset" asp-action="Delete" asp-route-id="@item.Id">
+                                                                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-trash-can m-r-5"> </i> Sil</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="offset-2 col-3">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i>  İptal</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde DataTable'ı oluştur
+            $('#OrgAssetLisTable').DataTable();
+
+            // Sayfa ilk açıldığında verileri yükleme işlemi
+        });
+    </script>
+    }

@@ -1,0 +1,48 @@
+﻿@using MVC_ONION_PROJECT.APPLICATION.Services.EnumHelpers;
+@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.ReimbursementVm;
+@model List<ReimbursementListVm>;
+@inject IEnumHelperService enumhelper;
+@if (Model!=null)
+{
+    
+
+@foreach (var item in Model)
+{
+    string encodedData = " ";
+    if (item?.Employee?.Photo != null)
+    {
+        encodedData = Convert.ToBase64String(item.Employee.Photo);
+    }
+
+    <tr>
+        <td>
+            <h2 class="table-avatar">
+                <a href="#" class="avatar">
+                    <img src="data:image/jpeg;base64,@(encodedData)" alt="User Image">
+                </a>
+                <a href="#">@(item.Employee.Name + " " + item.Employee.Surname) <span></span></a>
+            </h2>
+        </td>
+        <td>@item.Amount</td>
+        <td>@item.CreatedDate.Date.ToShortDateString()</td>
+        <td class="text-center">
+            <div class="dropdown action-label">
+                <a class="btn btn-white btn-sm btn-rounded " href="#"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="@item.PaymentStatus.ToString()"></i> @(enumhelper.GetDisplayName(item.PaymentStatus))
+                </a>
+               
+            </div>
+        </td>
+        <td>
+            <div class="dropdown dropdown-action">
+                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <!-- Edit Button -->
+                    <a class="dropdown-item" h asp-controller="Reimbursement" asp-action="DetailsReimbursement" asp-route-id="@item.Id"><i class="fa-solid fa-eye m-r-5"></i> Detay</a>
+                </div>
+            </div>
+        </td>
+    </tr>
+}
+}

@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+using System.ComponentModel.DataAnnotations;
+
+namespace MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeVms
+{
+    public class EmployeeUpdateVm
+    {
+        [Display(Name = "Kimlik")]
+        public Guid Id { get; set; }
+
+        [Display(Name = "Adı")]
+        public string? Name { get; set; }
+
+        [Display(Name = "Soyadı")]
+        public string? Surname { get; set; }
+
+        [Display(Name = "Adres")]
+        public string? Address { get; set; }
+
+        [Display(Name = "Telefon Numarası")]
+        public string? PhoneNumber { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "İşe Alım Tarihi")]
+        public DateTime RecruitmentDate { get; set; }
+
+        [Display(Name = "Departman")]
+        public Guid DepartmentId { get; set; }
+
+        public SelectList? DepartmentList { get; set; }
+
+        [Display(Name = "Fotoğraf")]
+        public Byte[]? Photo { get; set; }
+
+        [Display(Name = "Resim")]
+        public IFormFile? File { get; set; }
+        [Display(Name = "Cinsiyeti")]
+        public GenderStatus GenderStatus { get; set; }
+
+        public bool IsActive { get; set; }
+    }
+}

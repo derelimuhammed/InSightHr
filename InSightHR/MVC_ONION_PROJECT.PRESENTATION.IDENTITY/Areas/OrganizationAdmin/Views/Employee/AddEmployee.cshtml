@@ -1,0 +1,149 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeVms.EmployeeCreateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Çalışanlar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Employee" asp-action="Index">Çalışan Listesi </a></li>
+                <li class="breadcrumb-item active">Çalışan Ekleme Sayfası</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="Employee" asp-action="AddEmployee">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Name" class="control-label">
+                </label>
+                <input asp-for="Name" class="form-control" type="text">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Surname" class="control-label">
+                </label>
+                <input asp-for="Surname" class="form-control" type="text">
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="GenderStatus" class="control-label">
+                </label>
+                <select asp-for="GenderStatus" class="select">
+                    <option selected>Seçiniz..</option>
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                </select>
+                <span asp-validation-for="GenderStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Address" class="control-label">
+                </label>
+                <input asp-for="Address" class="form-control" type="text">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="PhoneNumber" class="control-label">
+                </label>
+                <input asp-for="PhoneNumber" id="phone" class="form-control" type="text">
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="RecruitmentDate" class="control-label">
+                </label>
+                <input asp-for="RecruitmentDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" type="date">
+                <span asp-validation-for="RecruitmentDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="DepartmentId" class="control-label">
+                </label>
+                <select asp-for="DepartmentId" asp-items="Model.DepartmentList" class="select">
+                    <option selected>Seçiniz..</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="input-block mb-3">
+                <label for="fileInput" class="row align-items-center">
+                    <label class="col-2" asp-for="File"></label>
+                    <img class="img5 offset-2 col-2 " id="uploadedImage" src="/uploads/plus-icon.png" alt="Yüklenen Resim">
+                </label>
+                <input asp-for="File" id="fileInput" hidden type="file" accept="image/*" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6 mb-3">
+            <div class="row mb-1">
+                <label asp-for="Email" class="control-label">
+                </label>
+                <div class="col-sm-12">
+                    <div class="input-group">
+                        <input asp-for="Email" type="text" id="textbox" class="form-control" disabled>
+                        <div class="input-group-append">
+                            <div class="onoffswitch mt-2">
+                                <input asp-for="IsCustomMail" type="checkbox" class="onoffswitch-checkbox" id="switch_hra" checked onchange="toggleSwitch(this)">
+                                <label class="onoffswitch-label" for="switch_hra">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        @if (User.IsInRole("SuperAdmin"))
+        {
+            <div class="col-sm-6">
+                <div class="input-block mb-3">
+                    <label asp-for="Role" class="control-label">
+                    </label>
+                    <select asp-for="Role" class="form-control">
+                        <option value="@Role.Employee">Çalışan</option>
+                        <option value="@Role.OrganizationAdmin">Organizasyon Yöneticisi</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Çalışan Ekle</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="Employee" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function toggleSwitch(element) {
+            var textbox = document.getElementById("textbox");
+            if (element.checked) {
+                // Anahtar açıksa (checked), metin kutusunu etkinleştirin.
+                textbox.disabled = true;
+            } else {
+                // Anahtar kapalıysa (unchecked), metin kutusunu devre dışı bırakın.
+                textbox.disabled = false;
+            }
+        }
+    </script>
+}

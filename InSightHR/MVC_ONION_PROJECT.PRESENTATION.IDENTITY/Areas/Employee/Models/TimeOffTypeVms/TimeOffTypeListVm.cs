@@ -1,0 +1,13 @@
+﻿using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+
+namespace MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.TimeOffTypeVms
+{
+    public class TimeOffTypeListVm
+    {
+        public Guid Id { get; set; }
+        public string TimeOffTypeName { get; set; }
+        public string TimeOffTypeDescription { get; set; }
+
+        
+    }
+}

@@ -1,0 +1,67 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.ReimbursementVm;
+@model ReimbursementDetailsVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Masraflar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Reimbursement" asp-action="Index">Masraflar</a></li>
+                <li class="breadcrumb-item active">Masraf Detayları</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card col-md-8">
+        <div class="card-body px-5">
+            <dl class="row mt-3">
+
+                <dt class="col-md-4 col-sm-12">
+                    @{
+                        string encodedData = Convert.ToBase64String(Model?.ExpenseAttachments ?? new byte[0]);
+                    }
+                    <img src="data:image/jpeg;base64,@(encodedData)">
+                </dt>
+                <dl class="col-md-8 col-sm-12 mt-sm-2 px-4">
+                    <dt class="col-6">
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+                    <dt class="col-6">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-6">
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </dt>
+                    @{
+                        decimal tutar = Model.Amount;
+                        string formatliTutar = string.Format("{0:C}", tutar);
+                    }
+                    <dd class="col-6">
+                        @formatliTutar
+                    </dd>
+                    <dt class="col-6">
+                        @Html.DisplayNameFor(model => model.PaymentStatus)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.PaymentStatus)
+                    </dd>
+                </dl>
+            </dl>
+            <div>
+
+                <a class="btn btn-info" asp-action="Index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+
+            </div>
+        </div>
+    </div>
+</div>

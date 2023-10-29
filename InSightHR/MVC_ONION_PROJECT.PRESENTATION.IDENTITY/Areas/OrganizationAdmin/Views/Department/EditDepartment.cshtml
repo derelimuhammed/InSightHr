@@ -1,0 +1,38 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.DepartmentVms.DepartmentUpdateVms;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Departmanlar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Department" asp-action="Index">Departman Listesi </a></li>
+                <li class="breadcrumb-item active">Departman Güncelle</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" asp-controller="Department" asp-action="EditDepartment">
+    <div class="col-md-6 col-sm-12 mb-4">
+        <div class="input-block mb-3 form-focus marrg">
+            <input asp-for="DepartmentName" type="text" class="form-control floating">
+            <label asp-for="DepartmentName" class="focus-label"></label>
+            <span asp-validation-for="DepartmentName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3 form-focus ">
+            <input asp-for="Description" type="text" class="form-control floating">
+            <label asp-for="Description" class="focus-label"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="Department" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>

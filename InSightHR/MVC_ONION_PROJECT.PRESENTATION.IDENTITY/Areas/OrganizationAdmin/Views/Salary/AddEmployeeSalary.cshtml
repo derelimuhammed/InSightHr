@@ -1,0 +1,63 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.SalaryVms.SalaryCreateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Çalışan Maaşları</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Salary" asp-action="Index">Maaş Listesi</a></li>
+                <li class="breadcrumb-item active">Yeni Maaş Bilgisi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="OrganizationAdmin" enctype="multipart/form-data" asp-controller="Salary" asp-action="AddEmployeeSalary">
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="EmployeeId" class="control-label">
+                </label>
+                <select asp-for="EmployeeId" asp-items="Model.EmployeeList" class="select">
+                    <option selected>Seçiniz..</option>
+                </select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="Salary" class="control-label">
+                </label>
+                <input asp-for="Salary" class="form-control" type="text">
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="SalaryDate" class="control-label">
+                </label>
+                <input asp-for="SalaryDate" class="form-control" type="date">
+                <span asp-validation-for="SalaryDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="SalaryEndDate" class="control-label">
+                </label>
+                <input asp-for="SalaryEndDate" class="form-control" type="date">
+                <span asp-validation-for="SalaryEndDate" class="text-danger"></span>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Kaydet</button>
+        <a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="Salary" asp-action="index"><i class="fa-regular fa-circle-xmark"></i>  İptal</a>
+    </div>
+</form>

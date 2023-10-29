@@ -1,0 +1,98 @@
+﻿@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+@{
+	Layout = "_Layout";
+}
+
+<div class="content container-fluid">
+	<div class="page-header">
+		<div class="row align-items-center">
+			<div class="col">
+				<h3 class="page-title">Zimmet Listesi</h3>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+					<li class="breadcrumb-item active">Zimmetler</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<div>
+				<table class="table table-striped custom-table mb-0 datatable">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Zimmet Adı</th>
+							@*<th>Kategori</th>*@
+							<th>Atama Tarihi</th>
+							<th class="text-center">Durumu</th>
+							<th class="text-center">İşlemler</th>
+							<th class="text-end"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model != null)
+						{
+							@foreach (var item in Model)
+							{
+								<tr>
+									<td>@(Model.IndexOf(item) + 1)</td>
+									<td>@item.DebitName</td>
+@*									<td>
+										<strong>@item.EmployeeName</strong>
+									</td>*@
+									<td>@item.AssignmentDate.ToShortDateString()</td>
+									<td class="text-center">
+										@if (item.ReturnStatus == ReturnStatus.Pending)
+										{
+											<span class="badge bg-inverse-info">Onay Bekliyor</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Assigned)
+										{
+											<span class="badge bg-inverse-success">Atandı</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Rejected)
+										{
+											<span class="badge bg-inverse-danger">İptal Edildi</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Returned)
+										{
+											<span class="badge bg-inverse-info">Teslim Ettiniz</span>
+										}
+									</td>
+									<td class="text-center">
+										@if (item.ReturnStatus == ReturnStatus.Pending)
+										{
+											<a class="btn btn-sm btn-success" asp-area="Employee" asp-controller="EmployeeDebit" asp-action="AcceptDebit" asp-route-id="@item.Id">Onayla</a> <span>|</span>
+											<a class="btn btn-sm btn-danger" asp-area="Employee" asp-controller="EmployeeDebit" asp-action="RejectDebit" asp-route-id="@item.Id">İptal Et</a>
+										}	
+
+									</td>
+
+									<td class="text-end">
+										<div class="dropdown dropdown-action">
+											<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+											<div class="dropdown-menu dropdown-menu-right">
+												<!-- Details Button -->
+												<a class="dropdown-item" h asp-controller="EmployeeDebit" asp-action="DetailsEmployeeDebit" asp-route-id="@item.Id"><i class="fa-solid fa-eye m-r-5"></i> Detaylar</a>
+
+											</div>
+										</div>
+									</td>
+								</tr>
+
+							
+
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

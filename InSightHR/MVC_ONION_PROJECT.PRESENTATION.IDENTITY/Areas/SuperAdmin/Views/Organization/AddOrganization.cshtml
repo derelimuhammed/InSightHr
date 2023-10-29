@@ -1,0 +1,219 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.OrganizationVms;
+@model OrganizationCreateVm;
+@{
+    Layout = "_Layout";
+}
+
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Çalışanlar</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Organization" asp-action="Index">Organizasyon Listesi </a></li>
+                <li class="breadcrumb-item active">Organizasyon Ekleme Sayfası</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="SuperAdmin" enctype="multipart/form-data" asp-controller="Organization" asp-action="AddOrganization">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="OrganizationName" class="control-label">
+                </label>
+                <input asp-for="OrganizationName" class="form-control" type="text">
+                <span asp-validation-for="OrganizationName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="OrganizationEmail" class="control-label">
+                </label>
+                <input asp-for="OrganizationEmail" class="form-control" type="text">
+                <span asp-validation-for="OrganizationEmail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="OrganizationAddress" class="control-label">
+                </label>
+                <input asp-for="OrganizationAddress" class="form-control" type="text">
+                <span asp-validation-for="OrganizationAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="OrganizationPhone" class="control-label">
+                </label>
+                <input asp-for="OrganizationPhone" id="phone" class="form-control" type="text">
+                <span asp-validation-for="OrganizationPhone" class="text-danger"></span>
+            </div>
+        </div>  
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <label asp-for="TaxNumber" class="control-label">
+                </label>
+                <input asp-for="TaxNumber" class="form-control" type="text">
+                <span asp-validation-for="TaxNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-block mb-3">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label asp-for="ContractStart" class="control-label">
+                        </label>
+                        <input asp-for="ContractStart" class="form-control" id="contactStart" type="date">
+                    </div>
+                    <div class="col-sm-6">
+                        <label asp-for="ContractEnd" class="control-label">
+                        </label>
+                        <input asp-for="ContractEnd" readonly id="contractEnd" class="form-control" type="date">
+                    </div>
+                    <span asp-validation-for="ContractStart" class="text-danger"></span>
+                    <span asp-validation-for="ContractEnd" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="input-block mb-3">
+                <label for="fileInput" class="row align-items-center">
+                    <label class="col-2" asp-for="Logopath"></label>
+                    <img class="img5 offset-2 col-2 " id="uploadedImage" src="/uploads/plus-icon.png" alt="Yüklenen Resim">
+                </label>
+                <input asp-for="Logopath" id="fileInput" hidden type="file" accept="image/*" />
+                <span asp-validation-for="Logopath" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            @foreach (var item in Model.PackageList)
+            {
+                <div class="columns">
+                    <ul class="price" id="@item.Id">
+                        <input asp-for="@Model.PackageId" id="basicPricepro_@item.Id" hidden value="@item.Id">
+                        <li class="grey">$ @item.Price</li>
+                        <li>@item.PackageName</li>
+                        <li>@item.NumberOfUser kullanabilecek kişi sayısı</li>
+                        <li>@item.PackageDurationMonth ay</li>
+                        <li class="grey"><a href="#" class="button" onclick="toggleSelection('@item.Id','basicPricepro_@item.Id')">Seç</a></li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-plus"></i> Organizasyon Ekle</button>
+        <a class="btn btn-secondary" asp-area="SuperAdmin" asp-controller="Organization" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>
+
+
+@section Scripts {
+    <script>
+
+        function toggleSelection(id, itemid) {
+            var basicPrices = document.querySelectorAll(".price");
+
+            // Tüm fiyat seçeneklerinden "selected" sınıfını kaldırın
+            for (var i = 0; i < basicPrices.length; i++) {
+                basicPrices[i].classList.remove("selected");
+            }
+
+            // Tıklanan fiyat seçeneğine "selected" sınıfını ekleyin
+            var basicPrice = document.getElementById(id);
+            basicPrice.classList.add("selected");
+            var packageId = document.getElementById(itemid).value; // Seçilen kategori değeri
+            if (packageId != null) {
+                // AJAX isteği gönder
+                $.ajax({
+                    url: '@Url.Action("GetPackageByDate", "Organization")',
+                    type: 'GET',
+                    data: { packageId: packageId },
+                    success: function (data) {
+                        // Verileri döndüren metodu çağırın ve ürünler ComboBox'ına ekleyin
+
+                        // Şu anki tarihi alın
+                        var currentDate = new Date(document.getElementById("contactStart").value);
+
+                        // AJAX isteği ile gelen veriyi bir sayıya çevirin
+                        var packageDuration = parseInt(data);
+
+                        // PackageDuration ay cinsinden bir süre ise, ContractStart tarihine ekleyin
+                        if (!isNaN(packageDuration)) {
+                            currentDate.setMonth(currentDate.getMonth() + packageDuration);
+
+                            // ContractEnd input alanına değeri ekleyin (tarih formatına dikkat edin)
+                            var formattedContractEnd = currentDate.toISOString().split('T')[0];
+                            $('#contractEnd').val(formattedContractEnd);
+                        } else {
+                            // Hatalı veri geldiğinde hata işlemlerini yapabilirsiniz
+                            console.error('Geçersiz paket süresi.');
+                        }
+                    }
+                });
+            } else {
+                // Kategori seçilmemişse ürünleri temizle
+            }
+        }
+        function getSelectedElementId() {
+            var basicPrices = document.querySelectorAll(".price");
+
+            for (var i = 0; i < basicPrices.length; i++) {
+                if (basicPrices[i].classList.contains("selected")) {
+                    return basicPrices[i].id;
+                }
+            }
+        }
+        $(document).ready(function () {
+
+            if (document.getElementById("contactStart").value == "0001-01-01") {
+                var currentDate = new Date();
+
+                // ContractStart input alanına değeri ekleyin (tarih formatına dikkat edin)
+                var formattedContractStart = currentDate.toISOString().split('T')[0];
+                document.getElementById("contactStart").value = formattedContractStart;
+                document.getElementById("contractEnd").value = formattedContractStart;
+            }
+            // Kategori ComboBox'ının değişim olayını dinle
+            $('#contactStart').change(function () {
+
+                var packageId = getSelectedElementId(); // Seçilen kategori değeri
+                if (packageId != null) {
+                    // AJAX isteği gönder
+                    $.ajax({
+                        url: '@Url.Action("GetPackageByDate", "Organization")',
+                        type: 'GET',
+                        data: { packageId: packageId },
+                        success: function (data) {
+                            // Verileri döndüren metodu çağırın ve ürünler ComboBox'ına ekleyin
+
+                            // Şu anki tarihi alın
+                            var currentDate = new Date(document.getElementById("contactStart").value);
+
+                            // AJAX isteği ile gelen veriyi bir sayıya çevirin
+                            var packageDuration = parseInt(data);
+
+                            // PackageDuration ay cinsinden bir süre ise, ContractStart tarihine ekleyin
+                            if (!isNaN(packageDuration)) {
+                                currentDate.setMonth(currentDate.getMonth() + packageDuration);
+
+                                // ContractEnd input alanına değeri ekleyin (tarih formatına dikkat edin)
+                                var formattedContractEnd = currentDate.toISOString().split('T')[0];
+                                $('#contractEnd').val(formattedContractEnd);
+                            } else {
+                                // Hatalı veri geldiğinde hata işlemlerini yapabilirsiniz
+                                console.error('Geçersiz paket süresi.');
+                            }
+                        }
+                    });
+                } else {
+                    // Kategori seçilmemişse ürünleri temizle
+                }
+            });
+        });
+
+
+    </script>
+}

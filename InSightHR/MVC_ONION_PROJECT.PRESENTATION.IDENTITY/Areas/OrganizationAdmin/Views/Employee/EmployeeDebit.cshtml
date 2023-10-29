@@ -1,0 +1,123 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.OrganizationAdmin.Models.EmployeeDebitVms;
+@using MVC_ONION_PROJECT.DOMAIN.ENUMS;
+
+@model List<EmployeeDebitListVm>
+@{
+	Layout = "_Layout";
+}
+
+<div class="content container-fluid">
+	<div class="page-header">
+		<div class="row align-items-center">
+			<div class="col">
+				<h3 class="page-title">Zimmet Listesi</h3>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+					<li class="breadcrumb-item active">Çalışan Zimmet Listesi</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div>
+				<table class="table table-striped custom-table mb-0 datatable">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Zimmet Adı</th>
+							<th>Atanan Çalışan</th>
+							<th>Atama Tarihi</th>
+							<th class="text-center">Durumu</th>							
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model != null)
+						{
+							@foreach (var item in Model)
+							{
+								<tr>
+									<td>@(Model.IndexOf(item) + 1)</td>
+									<td>@item.DebitName</td>
+									<td>
+										<strong>@item.EmployeeName</strong>
+									</td>
+									<td>@item.AssignmentDate.ToShortDateString()</td>
+									<td class="text-center">
+										@if (item.ReturnStatus == ReturnStatus.Pending)
+										{
+											<span class="badge bg-inverse-info">Onayda</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Assigned)
+										{
+											<span class="badge bg-inverse-success">Atandı</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Rejected)
+										{
+											<span class="badge bg-inverse-danger">İptal Edildi</span>
+										}
+										@if (item.ReturnStatus == ReturnStatus.Returned)
+										{
+											<span class="badge bg-inverse-info">Teslim Alındı</span>
+										}
+									</td>
+									<td class="text-end">
+										<div class="dropdown dropdown-action">
+											<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+											<div class="dropdown-menu dropdown-menu-right">
+												@if (item.ReturnStatus == ReturnStatus.Assigned || item.ReturnStatus == ReturnStatus.Pending)
+												{
+													<a class="dropdown-item" h asp-controller="EmployeeDebit" asp-action="EditEmployeeDebit" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i> Geri Al</a>
+												}
+												@if (item.ReturnStatus == ReturnStatus.Pending)
+												{
+													<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_employeeDebit_@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Sil</a>
+												}
+												
+											</div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- Delete Modal -->
+								<div class="modal custom-modal fade" id="delete_employeeDebit_@item.Id" role="dialog">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+											<div class="modal-body">
+												<div class="form-header">
+													<h3>Zimmet Silme</h3>
+													<p>"@item.DebitName" zimmetini @item.EmployeeName kişisinden silmek istediğinize emin misiniz?</p>
+												</div>
+												<div class="modal-btn delete-action">
+													<div class="row">
+														<div class="offset-2 col-3">
+															<!-- Delete Button with Form Submission -->
+															<form method="post" asp-controller="EmployeeDebit" asp-action="Delete" asp-route-id="@item.Id">
+																<button type="submit" class="btn btn-primary"><i class="fa-regular fa-trash-can m-r-5"> </i> Sil</button>
+															</form>
+														</div>
+														<div class="offset-2 col-3">
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-regular fa-circle-xmark"></i>  İptal</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<a class="btn btn-secondary" asp-area="OrganizationAdmin" asp-controller="Employee" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+		</div>
+	</div>
+</div>
+
+
+

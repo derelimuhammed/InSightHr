@@ -1,0 +1,116 @@
+﻿@using MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.SuperAdmin.Models.Package;
+@model List<PackageListVm>;
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Paketler</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Paket Listesi</li>
+                </ul>
+            </div>
+            <div class="col-auto float-end ms-auto">
+                <a class="btn btn-secondary" asp-area="SuperAdmin" asp-controller="Package" asp-action="AddPackage"><i class="fa-solid fa-plus"></i>Paket Ekle</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 ml-8">
+
+            @foreach (var item in Model)
+            {
+
+                <div class="columns ">
+
+                    <ul class="price" id="@item.Id">
+
+                        <input asp-for="@item.Id" id="basicPricepro_@item.Id" hidden value="@item.Id">
+                        <li class="grey" style="background-color: #fd7960">
+                            <div class="row">
+                                <span class="offset-5 col-md-6 text-start">
+                                    @item.PackageName
+                                </span>
+
+                                <span class="dropdown dropdown-action  col-md-1 ">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <span class="dropdown-menu dropdown-menu-right">
+                                        <!-- Edit Button -->
+                                        <a class="dropdown-item" h asp-controller="Package" asp-action="EditPackage" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i>Güncelle</a>
+                                        <!-- Delete Button -->
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_packageSalary_@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                    </span>
+                                </span>
+                            </div>
+                        </li>
+                        
+                        <li>@item.NumberOfUser Kişiye kadar</li>
+                        <li>@item.PackageDurationMonth Aylık Kullanım</li>
+                        <li style="background-color:#fd7663">@item.Price $</li>
+                        <li class="text-center">
+                            <div class="dropdown action-label">
+                                <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-regular fa-circle-dot @(item.IsActive ? "text-success" : "text-danger") "> <span style="font-family:Arial, sans-serif">@(item.IsActive ? "Active" : "Inactive")</span> </i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <form method="post" asp-controller="Package" asp-action="ActiveOrPasive" asp-route-id="@item.Id" asp-route-isActive="true">
+                                        <button class="btn dropdown-item" type="submit">
+                                            <i class="fa-regular fa-circle-dot text-success"></i>
+                                            Active
+                                        </button>
+                                    </form>
+                                    <form method="post" asp-controller="Package" asp-action="ActiveOrPasive" asp-route-id="@item.Id" asp-route-isActive="false">
+                                        <button class="btn dropdown-item" type="submit">
+                                            <i class="fa-regular fa-circle-dot text-danger"></i>
+                                            Inactive
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <!-- Delete Modal -->
+                    <div class="modal custom-modal fade" id="delete_packageSalary_@item.Id" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="form-header">
+                                        <h3>Delete Asset</h3>
+                                        <p>Are you sure you want to delete salary of @item.PackageName?</p>
+                                    </div>
+                                    <div class="modal-btn delete-action">
+                                        <div class="row">
+                                            <div class="offset-2 col-3">
+                                                <!-- Delete Button with Form Submission -->
+                                                <form method="post" asp-controller="Package" asp-action="Delete" asp-route-id="@item.Id">
+                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                </form>
+                                            </div>
+                                            <div class="offset-2 col-3">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,48 @@
+﻿@model MVC_ONION_PROJECT.PRESENTATION.IDENTITY.Areas.Employee.Models.TimeOffVms.TimeOffUpdateVm;
+@{
+    Layout = "_Layout";
+}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">İzinler</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a asp-controller="EmployeTimeOff" asp-action="Index">İzinler</a></li>
+                <li class="breadcrumb-item active">İzin Güncelleme</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form asp-area="Employee" asp-controller="EmployeTimeOff" asp-action="EditTimeOff">
+    
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3">
+            <label asp-for="StartTime" class="control-label">Başlangıç Tarihi</label>
+            <input asp-for="StartTime" class="form-control" type="date">
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3">
+            <label asp-for="EndTime" class="control-label">Bitiş Tarihi</label>
+            <input asp-for="EndTime" class="form-control" type="date">
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 mb-5">
+        <div class="input-block mb-3 form-focus ">
+            <input asp-for="Reason" type="text" class="form-control floating">
+            <label asp-for="Reason" class="focus-label">Açıklama</label>
+            <span asp-validation-for="Reason" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-pencil m-r-5"></i> Güncelle</button>
+        <a class="btn btn-secondary" asp-area="Employee" asp-controller="EmployeTimeOff" asp-action="index"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Geri Dön</a>
+    </div>
+</form>
